@@ -1,6 +1,6 @@
 export default class Tile
 {
-    private static types = [
+    private static randomTypes = [
         'grass',
         'grass',
         'grass',
@@ -32,7 +32,7 @@ export default class Tile
 
     public static random(): Tile
     {
-        return new Tile(this.types[Math.floor(Math.random() * this.types.length)]);
+        return new Tile(this.randomTypes[Math.floor(Math.random() * this.randomTypes.length)]);
     }
 
     public getColor(): string
@@ -46,6 +46,9 @@ export default class Tile
 
             case 'stone':
                 return '607D8B';
+
+            case 'water':
+                return '0D47A1';
         }
 
         throw new Error('unknown tile "' + this.type + '"');
@@ -53,7 +56,7 @@ export default class Tile
 
     public isBlocking(): boolean
     {
-        let blockingTiles = ['tree', 'stone'];
+        let blockingTiles = ['tree', 'stone', 'water'];
 
         return blockingTiles.indexOf(this.type) !== -1;
     }
