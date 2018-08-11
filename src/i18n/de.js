@@ -7,6 +7,7 @@ export default {
         ok: "ok",
         cancel: "abbrechen",
         close: "schließen",
+        end_turn: "Runde beenden",
     },
     error: {
         not_enough_action_points: "Du hast nicht genügend Aktionspunkte.",

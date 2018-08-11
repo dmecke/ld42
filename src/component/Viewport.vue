@@ -78,6 +78,9 @@ export default class Viewport extends Vue
                 this.map.pickupInventoryItemAt(this.player.getPosition());
             }
         });
+        EventBus.$on('end_turn', () => {
+            this.player.resetActionPoints();
+        });
     }
 
     private get cellSize(): number

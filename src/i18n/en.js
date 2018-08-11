@@ -7,6 +7,7 @@ export default {
         ok: "ok",
         cancel: "abbrechen",
         close: "close",
+        end_turn: "End turn",
     },
     error: {
         not_enough_action_points: "You don't have enough action points.",

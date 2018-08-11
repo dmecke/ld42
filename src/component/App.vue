@@ -11,6 +11,9 @@
                 <v-list-tile>
                     {{ $t('stats.action_points') }}: {{ $store.state.map.getPlayer().getActionPoints() }}
                 </v-list-tile>
+                <v-list-tile>
+                    <v-btn color="primary" @click="endTurn()">{{ $t('general.end_turn') }}</v-btn>
+                </v-list-tile>
             </v-list>
         </v-navigation-drawer>
         <v-navigation-drawer app right clipped v-model="isOpenRightMenu" class="chat">
@@ -42,6 +45,7 @@ import InfoDialog from './dialog/InfoDialog';
 import ErrorDialog from './dialog/ErrorDialog';
 import ConfirmationDialog from './dialog/ConfirmationDialog';
 import NotificationHandler from './notification/NotificationHandler';
+import {EventBus} from "../service/EventBus";
 
 @Component({
     components: {
@@ -55,5 +59,10 @@ export default class App extends Vue
 {
     private isOpenLeftMenu: boolean = true;
     private isOpenRightMenu: boolean = false;
+
+    private endTurn(): void
+    {
+        EventBus.$emit('end_turn');
+    }
 }
 </script>

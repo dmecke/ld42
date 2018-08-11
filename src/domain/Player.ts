@@ -30,6 +30,11 @@ export default class Player implements Soldier
         return this.actionPoints;
     }
 
+    public resetActionPoints(): void
+    {
+        this.actionPoints = config.action_points;
+    }
+
     public moveUp(): void
     {
         if (this.actionPoints < 1) {
