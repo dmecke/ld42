@@ -23,7 +23,9 @@ export default class Player implements Soldier
 
     public getImage(): string
     {
-        return require('./player.png');
+        let weapon = this.hasWeapon() ? '_with_weapon' : '';
+
+        return require('./player' + weapon + '.png');
     }
 
     public getPosition(): Position

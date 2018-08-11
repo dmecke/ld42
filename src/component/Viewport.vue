@@ -44,6 +44,7 @@ export default class Viewport extends Vue
 {
     private created(): void
     {
+        EventBus.$on('update', () => this.$forceUpdate());
         EventBus.$on('movement', event => {
             if (!this.getPlayer().isAlive()) {
                 return;
@@ -53,7 +54,7 @@ export default class Viewport extends Vue
                 return;
             }
             this.getPlayer().moveTo(target);
-            this.$forceUpdate();
+            EventBus.$emit('update');
         });
         EventBus.$on('pickup', () => {
             if (!this.getPlayer().isAlive()) {
@@ -67,7 +68,7 @@ export default class Viewport extends Vue
             let successful = this.getPlayer().pickup(item);
             if (successful) {
                 this.getMap().pickupInventoryItemAt(this.getPlayer().getPosition());
-                this.$forceUpdate();
+                EventBus.$emit('update');
             }
         });
         EventBus.$on('end_turn', () => {
@@ -75,7 +76,7 @@ export default class Viewport extends Vue
                 return;
             }
             this.getPlayer().resetActionPoints();
-            this.$forceUpdate();
+            EventBus.$emit('update');
         });
     }
 

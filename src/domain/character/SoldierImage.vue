@@ -6,6 +6,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import Soldier from "./Soldier";
+import {EventBus} from "../../service/EventBus";
 
 @Component({
     props: {
@@ -17,6 +18,10 @@ import Soldier from "./Soldier";
 })
 export default class SoldierImage extends Vue
 {
+    private created(): void
+    {
+        EventBus.$on('update', () => this.$forceUpdate());
+    }
 }
 </script>
 
