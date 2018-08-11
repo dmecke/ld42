@@ -50,4 +50,11 @@ export default class Tile
 
         throw new Error('unknown tile "' + this.type + '"');
     }
+
+    public isBlocking(): boolean
+    {
+        let blockingTiles = ['tree', 'stone'];
+
+        return blockingTiles.indexOf(this.type) !== -1;
+    }
 }

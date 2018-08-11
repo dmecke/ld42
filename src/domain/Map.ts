@@ -40,19 +40,29 @@ export default class Map
             }
         }
 
-        let player = new Player(Position.random());
+        let player = new Player(this.createRandomNonBlockingPosition(tiles));
 
         let ai = [];
         for (let i = 1; i < 100; i++) {
-            ai.push(new Ai(Position.random()));
+            ai.push(new Ai(this.createRandomNonBlockingPosition(tiles)));
         }
 
         let weapons = [];
         for (let i = 1; i < 1000; i++) {
-            weapons.push(new Weapon(Position.random()));
+            weapons.push(new Weapon(this.createRandomNonBlockingPosition(tiles)));
         }
 
         return new Map(tiles, player, ai, weapons);
+    }
+
+    private static createRandomNonBlockingPosition(tiles: Tile[][]): Position
+    {
+        let position = Position.random();
+        while (tiles[position.getY()][position.getX()].isBlocking()) {
+            position = Position.random();
+        }
+
+        return position;
     }
 
     public getPlayer(): Player
