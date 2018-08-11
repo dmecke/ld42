@@ -35,47 +35,14 @@ export default class Player implements Soldier
         this.actionPoints = config.action_points;
     }
 
-    public moveUp(): void
+    public moveTo(position: Position): void
     {
         if (this.actionPoints < 1) {
             EventBus.$emit('error', 'not_enough_action_points');
             return;
         }
 
-        this.position = this.position.up();
-        this.actionPoints--;
-    }
-
-    public moveDown(): void
-    {
-        if (this.actionPoints < 1) {
-            EventBus.$emit('error', 'not_enough_action_points');
-            return;
-        }
-
-        this.position = this.position.down();
-        this.actionPoints--;
-    }
-
-    public moveLeft(): void
-    {
-        if (this.actionPoints < 1) {
-            EventBus.$emit('error', 'not_enough_action_points');
-            return;
-        }
-
-        this.position = this.position.left();
-        this.actionPoints--;
-    }
-
-    public moveRight(): void
-    {
-        if (this.actionPoints < 1) {
-            EventBus.$emit('error', 'not_enough_action_points');
-            return;
-        }
-
-        this.position = this.position.right();
+        this.position = position;
         this.actionPoints--;
     }
 
@@ -87,7 +54,6 @@ export default class Player implements Soldier
         }
 
         this.inventory.push(item);
-
         this.actionPoints -= 5;
 
         return true;

@@ -46,26 +46,11 @@ export default class Viewport extends Vue
     private created(): void
     {
         EventBus.$on('movement', event => {
-            switch (event.direction) {
-                case 'up':
-                    this.player.moveUp();
-                    break;
-
-                case 'down':
-                    this.player.moveDown();
-                    break;
-
-                case 'left':
-                    this.player.moveLeft();
-                    break;
-
-                case 'right':
-                    this.player.moveRight();
-                    break;
-
-                default:
-                    throw new Error('unknown movement direction: "' + event.direction + '"');
+            let target = this.getTarget(event.direction);
+            if (this.getTileAt(target).isBlocking()) {
+                return;
             }
+            this.player.moveTo(target);
         });
         EventBus.$on('pickup', () => {
             let item = this.map.getInventoryItemAt(this.player.getPosition());
@@ -81,6 +66,25 @@ export default class Viewport extends Vue
         EventBus.$on('end_turn', () => {
             this.player.resetActionPoints();
         });
+    }
+
+    private getTarget(direction: string): Position
+    {
+        switch (direction) {
+            case 'up':
+                return this.player.getPosition().add(new Position(0, -1));
+
+            case 'down':
+                return this.player.getPosition().add(new Position(0, 1));
+
+            case 'left':
+                return this.player.getPosition().add(new Position(-1, 0));
+
+            case 'right':
+                return this.player.getPosition().add(new Position(1, 0));
+        }
+
+        throw new Error('unknown movement direction: "' + direction + '"');
     }
 
     private get cellSize(): number

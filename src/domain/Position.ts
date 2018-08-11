@@ -29,6 +29,11 @@ export default class Position
         return this.y;
     }
 
+    public add(position: Position): Position
+    {
+        return new Position(this.x + position.x, this.y + position.y);
+    }
+
     public up(): Position
     {
         return new Position(this.x, this.y - 1);
