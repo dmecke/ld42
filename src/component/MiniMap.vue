@@ -23,6 +23,12 @@ export default class MiniMap extends Vue
                 context.fillRect(x, y, 1, 1);
             }
         }
+
+        context.beginPath();
+        context.fillStyle = '#F44336';
+        context.arc(Map.getPlayer().getPosition().getX(), Map.getPlayer().getPosition().getY(), 5, 0, Math.PI * 2);
+        context.fill();
+        context.closePath();
     }
 
     private get width(): number
