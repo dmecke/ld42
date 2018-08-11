@@ -2,8 +2,11 @@
     <table>
         <tr v-for="y in viewportX" :style="{ height: cellSize + 'px' }">
             <td v-for="x in viewportY" :style="{ width: cellSize + 'px' }">
-                <div class="entity" v-for="entity in getEntitiesAt(createPosition(x + offsetX, y + offsetY))">{{ entity.getTitle() }}</div>
-                <div class="position caption grey--text">{{ createPosition(x + offsetX, y + offsetY).toString() }}</div>
+                <div v-if="x + offsetX >= 1 && x + offsetX <= mapMaxX && y + offsetY >= 1 && y + offsetY <= mapMaxY">
+                    <div class="entity" v-for="entity in getEntitiesAt(createPosition(x + offsetX, y + offsetY))">{{ entity.getTitle() }}</div>
+                    <div class="position caption grey--text">{{ createPosition(x + offsetX, y + offsetY).toString() }}</div>
+                    <div class="tile caption grey--text">{{ getTileAt(createPosition(x + offsetX, y + offsetY)).getType() }}</div>
+                </div>
             </td>
         </tr>
     </table>
@@ -16,6 +19,7 @@ import Soldier from "../domain/Soldier";
 import GameObject from "../domain/GameObject";
 import Map from "../domain/Map";
 import Position from "../domain/Position";
+import Tile from "../domain/Tile";
 
 @Component
 export default class Viewport extends Vue
@@ -23,6 +27,16 @@ export default class Viewport extends Vue
     private get cellSize(): number
     {
         return Map.CELL_SIZE;
+    }
+
+    private get mapMaxX(): number
+    {
+        return Map.MAX_X;
+    }
+
+    private get mapMaxY(): number
+    {
+        return Map.MAX_Y;
     }
 
     private get viewportX(): number
@@ -64,6 +78,11 @@ export default class Viewport extends Vue
     {
         return this.map.getEntitiesAt(position);
     }
+
+    private getTileAt(position: Position): Tile
+    {
+        return this.map.getTileAt(position);
+    }
 }
 </script>
 
@@ -82,6 +101,15 @@ table {
             }
             &:hover {
                 .position {
+                    display: block;
+                }
+            }
+            .tile {
+                text-align: center;
+                display: none;
+            }
+            &:hover {
+                .tile {
                     display: block;
                 }
             }
