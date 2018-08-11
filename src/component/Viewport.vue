@@ -1,11 +1,14 @@
 <template>
     <table>
-        <tr v-for="y in viewportX" :style="{ height: cellSize + 'px' }">
-            <td v-for="x in viewportY" :style="{ width: cellSize + 'px' }">
-                <div v-if="x + offsetX >= 1 && x + offsetX <= mapMaxX && y + offsetY >= 1 && y + offsetY <= mapMaxY">
+        <tr v-for="y in viewportX">
+            <td v-for="x in viewportY" :style="{ width: cellSize + 'px', height: cellSize + 'px' }">
+                <div
+                    v-if="x + offsetX >= 1 && x + offsetX <= mapMaxX && y + offsetY >= 1 && y + offsetY <= mapMaxY"
+                    class="cell"
+                    :style="{ backgroundColor: '#' + getTileAt(createPosition(x + offsetX, y + offsetY)).getColor() }"
+                >
                     <div class="entity" v-for="entity in getEntitiesAt(createPosition(x + offsetX, y + offsetY))">{{ entity.getTitle() }}</div>
-                    <div class="position caption grey--text">{{ createPosition(x + offsetX, y + offsetY).toString() }}</div>
-                    <div class="tile caption grey--text">{{ getTileAt(createPosition(x + offsetX, y + offsetY)).getType() }}</div>
+                    <div class="position caption">{{ createPosition(x + offsetX, y + offsetY).toString() }}</div>
                 </div>
             </td>
         </tr>
@@ -91,26 +94,20 @@ table {
     border-collapse: collapse;
     tr {
         td {
-            border: 1px solid #424242;
-            .entity {
-                text-align: center;
-            }
-            .position {
-                text-align: center;
-                display: none;
-            }
-            &:hover {
-                .position {
-                    display: block;
+            .cell {
+                width: 100%;
+                height: 100%;
+                .entity {
+                    text-align: center;
                 }
-            }
-            .tile {
-                text-align: center;
-                display: none;
-            }
-            &:hover {
-                .tile {
-                    display: block;
+                .position {
+                    text-align: center;
+                    display: none;
+                }
+                &:hover {
+                    .position {
+                        display: block;
+                    }
                 }
             }
         }

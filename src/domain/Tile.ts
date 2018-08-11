@@ -1,6 +1,27 @@
 export default class Tile
 {
-    private static types = ['grass', 'tree', 'stone'];
+    private static types = [
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'grass',
+        'tree',
+        'tree',
+        'tree',
+        'stone',
+    ];
 
     private readonly type: string;
 
@@ -14,8 +35,19 @@ export default class Tile
         return new Tile(this.types[Math.floor(Math.random() * this.types.length)]);
     }
 
-    public getType(): string
+    public getColor(): string
     {
-        return this.type;
+        switch (this.type) {
+            case 'grass':
+                return '8BC34A';
+
+            case 'tree':
+                return '1B5E20';
+
+            case 'stone':
+                return '607D8B';
+        }
+
+        throw new Error('unknown tile "' + this.type + '"');
     }
 }
