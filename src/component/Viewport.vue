@@ -12,7 +12,10 @@
                         <ld-ai v-if="entity.getTitle() === 'Ai'"></ld-ai>
                         <ld-player v-if="entity.getTitle() === 'Player'"></ld-player>
                     </template>
-                    <div class="position caption">{{ createPosition(x + offsetX, y + offsetY).toString() }}</div>
+                    <div class="position caption">
+                        <div>x: {{ x + offsetX }}</div>
+                        <div>y: {{ y + offsetY }}</div>
+                    </div>
                 </div>
             </td>
         </tr>
@@ -161,6 +164,10 @@ table {
                 .position {
                     text-align: center;
                     display: none;
+                    div {
+                        white-space: nowrap;
+                        font-size: 11px;
+                    }
                 }
                 &:hover {
                     .position {
