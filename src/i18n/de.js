@@ -21,5 +21,6 @@ export default {
     },
     stats: {
         action_points: "Aktionspunkte",
+        hitpoints: "Trefferpunkte",
     },
 }

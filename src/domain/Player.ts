@@ -9,6 +9,7 @@ export default class Player implements Soldier
     private position: Position;
     private actionPoints: number = config.action_points;
     private inventory: InventoryItem[] = [];
+    private hitpoints: number = config.hitpoints;
 
     public constructor(position: Position)
     {
@@ -33,6 +34,11 @@ export default class Player implements Soldier
     public resetActionPoints(): void
     {
         this.actionPoints = config.action_points;
+    }
+
+    public getHitpoints(): number
+    {
+        return this.hitpoints;
     }
 
     public moveTo(position: Position): void

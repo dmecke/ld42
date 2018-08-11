@@ -21,5 +21,6 @@ export default {
     },
     stats: {
         action_points: "Action Points",
+        hitpoints: "Hitpoints",
     },
 }

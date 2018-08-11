@@ -7,4 +7,5 @@ export default {
         height: 1000,
     },
     action_points: 30,
+    hitpoints: 100,
 }

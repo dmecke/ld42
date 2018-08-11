@@ -12,6 +12,9 @@
                     {{ $t('stats.action_points') }}: {{ $store.state.map.getPlayer().getActionPoints() }}
                 </v-list-tile>
                 <v-list-tile>
+                    {{ $t('stats.hitpoints') }}: {{ $store.state.map.getPlayer().getHitpoints() }}
+                </v-list-tile>
+                <v-list-tile>
                     <v-btn color="primary" @click="endTurn()">{{ $t('general.end_turn') }}</v-btn>
                 </v-list-tile>
             </v-list>
