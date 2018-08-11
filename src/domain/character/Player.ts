@@ -1,8 +1,8 @@
-import Position from "./Position";
+import Position from "../Position";
 import Soldier from "./Soldier";
-import config from "../config";
-import InventoryItem from "./InventoryItem";
-import {EventBus} from "../service/EventBus";
+import config from "../../config";
+import InventoryItem from "../InventoryItem";
+import {EventBus} from "../../service/EventBus";
 
 export default class Player implements Soldier
 {
@@ -19,6 +19,11 @@ export default class Player implements Soldier
     public getTitle(): string
     {
         return 'Player';
+    }
+
+    public getImage(): string
+    {
+        return require('./player.png');
     }
 
     public getPosition(): Position

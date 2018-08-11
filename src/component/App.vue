@@ -52,7 +52,7 @@ import ErrorDialog from './dialog/ErrorDialog';
 import ConfirmationDialog from './dialog/ConfirmationDialog';
 import NotificationHandler from './notification/NotificationHandler';
 import {EventBus} from "../service/EventBus";
-import Player from "../domain/Player";
+import Player from "../domain/character/Player";
 
 @Component({
     components: {

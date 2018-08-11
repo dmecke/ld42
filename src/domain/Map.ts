@@ -1,11 +1,11 @@
 import Position from "./Position";
-import Ai from "./Ai";
-import Player from "./Player";
+import Ai from "./character/Ai";
+import Player from "./character/Player";
 import GameObject from "./GameObject";
 import Weapon from "./Weapon";
 import {Tiles} from "./Tiles";
 import InventoryItem from "./InventoryItem";
-import Soldier from "./Soldier";
+import Soldier from "./character/Soldier";
 
 export default class Map
 {
@@ -60,23 +60,6 @@ export default class Map
         }
 
         return soldiersAlive;
-    }
-
-    public getEntitiesAt(position: Position): GameObject[]
-    {
-        let entities = [];
-
-        if (this.player.getPosition().equals(position)) {
-            entities.push(this.player);
-        }
-
-        let ai = this.ai.filter(ai => ai.getPosition().equals(position));
-        ai.forEach(soldier => entities.push(soldier));
-
-        let weapons = this.weapons.filter(weapon => weapon.getPosition().equals(position));
-        weapons.forEach(weapon => entities.push(weapon));
-
-        return entities;
     }
 
     public getSoldierAt(position: Position): Soldier|null

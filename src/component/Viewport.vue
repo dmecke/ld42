@@ -7,11 +7,11 @@
                     class="cell"
                     :style="{ backgroundColor: '#' + getTileAt(createPosition(x + offsetX, y + offsetY)).getColor() }"
                 >
-                    <template v-for="entity in getEntitiesAt(createPosition(x + offsetX, y + offsetY))">
-                        <ld-weapon v-if="entity.getTitle() === 'Weapon'"></ld-weapon>
-                        <ld-ai v-if="entity.getTitle() === 'Ai'"></ld-ai>
-                        <ld-player v-if="entity.getTitle() === 'Player'"></ld-player>
-                    </template>
+                    <ld-weapon-image v-if="map.getInventoryItemAt(createPosition(x + offsetX, y + offsetY))"></ld-weapon-image>
+                    <ld-soldier-image
+                        v-if="map.getSoldierAt(createPosition(x + offsetX, y + offsetY))"
+                        :soldier="map.getSoldierAt(createPosition(x + offsetX, y + offsetY))"
+                    ></ld-soldier-image>
                     <div class="position caption">
                         <div>x: {{ x + offsetX }}</div>
                         <div>y: {{ y + offsetY }}</div>
@@ -25,23 +25,21 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import PlayerEntity from "../domain/Player";
+import PlayerEntity from "../domain/character/Player";
 import GameObject from "../domain/GameObject";
 import Map from "../domain/Map";
 import Position from "../domain/Position";
 import Tile from "../domain/Tile";
 import {Tiles} from "../domain/Tiles";
 import config from "../config";
-import Player from "./character/Player";
-import Ai from "./character/Ai";
-import Weapon from "./weapon/Weapon";
+import SoldierImage from "../domain/character/SoldierImage.vue";
+import WeaponImage from "../domain/weapon/WeaponImage";
 import {EventBus} from "../service/EventBus";
 
 @Component({
     components: {
-        'ld-player': Player,
-        'ld-ai': Ai,
-        'ld-weapon': Weapon,
+        'ld-soldier-image': SoldierImage,
+        'ld-weapon-image': WeaponImage,
     }
 })
 export default class Viewport extends Vue
@@ -147,11 +145,6 @@ export default class Viewport extends Vue
     private get player(): PlayerEntity
     {
         return this.map.getPlayer();
-    }
-
-    private getEntitiesAt(position: Position): GameObject[]
-    {
-        return this.map.getEntitiesAt(position);
     }
 
     private getTileAt(position: Position): Tile

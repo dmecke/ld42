@@ -1,6 +1,6 @@
 import Soldier from "./Soldier";
-import Position from "./Position";
-import config from "../config";
+import Position from "../Position";
+import config from "../../config";
 
 export default class Ai implements Soldier
 {
@@ -16,6 +16,11 @@ export default class Ai implements Soldier
     public getTitle(): string
     {
         return 'Ai';
+    }
+
+    public getImage(): string
+    {
+        return require('./ai.png');
     }
 
     public getPosition(): Position
