@@ -26,11 +26,9 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import PlayerEntity from "../domain/character/Player";
-import GameObject from "../domain/GameObject";
-import Map from "../domain/Map";
+import {Map} from "../domain/Map";
 import Position from "../domain/Position";
 import Tile from "../domain/Tile";
-import {Tiles} from "../domain/Tiles";
 import config from "../config";
 import SoldierImage from "../domain/character/SoldierImage.vue";
 import WeaponImage from "../domain/weapon/WeaponImage";
@@ -55,6 +53,7 @@ export default class Viewport extends Vue
                 return;
             }
             this.player.moveTo(target);
+            this.$forceUpdate();
         });
         EventBus.$on('pickup', () => {
             if (!this.player.isAlive()) {
@@ -68,6 +67,7 @@ export default class Viewport extends Vue
             let successful = this.player.pickup(item);
             if (successful) {
                 this.map.pickupInventoryItemAt(this.player.getPosition());
+                this.$forceUpdate();
             }
         });
         EventBus.$on('end_turn', () => {
@@ -75,6 +75,7 @@ export default class Viewport extends Vue
                 return;
             }
             this.player.resetActionPoints();
+            this.$forceUpdate();
         });
     }
 
@@ -137,19 +138,19 @@ export default class Viewport extends Vue
         return new Position(x, y);
     }
 
-    private get map(): Map
+    private get map(): any
     {
-        return this.$store.state.map;
+        return Map;
     }
 
     private get player(): PlayerEntity
     {
-        return this.map.getPlayer();
+        return Map.getPlayer();
     }
 
     private getTileAt(position: Position): Tile
     {
-        return Tiles[position.getY()][position.getX()];
+        return Map.getTileAt(position);
     }
 
     private fireAt(position: Position): void

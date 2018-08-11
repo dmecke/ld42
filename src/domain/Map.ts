@@ -1,46 +1,48 @@
 import Position from "./Position";
 import Ai from "./character/Ai";
 import Player from "./character/Player";
-import GameObject from "./GameObject";
 import Weapon from "./Weapon";
-import {Tiles} from "./Tiles";
 import InventoryItem from "./InventoryItem";
 import Soldier from "./character/Soldier";
+import config from "../config";
+import Tile from "./Tile";
 
-export default class Map
+export const Map = new class
 {
+    private readonly tiles: Tile[][] = [];
     private readonly player: Player;
-    private readonly ai: Ai[];
-    private weapons: Weapon[];
+    private readonly ai: Ai[] = [];
+    private weapons: Weapon[] = [];
 
-    public constructor(player: Player, ai: Ai[], weapons: Weapon[])
+    public constructor()
     {
-        this.player = player;
-        this.ai = ai;
-        this.weapons = weapons;
-    }
+        const waterBorder = 10;
+        for (let y = 1; y <= config.map.width; y++) {
+            this.tiles[y] = [];
+            for (let x = 1; x <= config.map.height; x++) {
+                if (x <= waterBorder || x >= config.map.width - waterBorder || y <= waterBorder || y >= config.map.height - waterBorder) {
+                    this.tiles[y][x] = new Tile('water');
+                } else {
+                    this.tiles[y][x] = Tile.random();
+                }
+            }
+        }
 
-    public static reset(): Map
-    {
-        let player = new Player(this.createRandomNonBlockingPosition());
+        this.player = new Player(this.createRandomNonBlockingPosition());
 
-        let ai = [];
         for (let i = 1; i < 100; i++) {
-            ai.push(new Ai(this.createRandomNonBlockingPosition()));
+            this.ai.push(new Ai(this.createRandomNonBlockingPosition()));
         }
 
-        let weapons = [];
         for (let i = 1; i < 1000; i++) {
-            weapons.push(new Weapon(this.createRandomNonBlockingPosition()));
+            this.weapons.push(new Weapon(this.createRandomNonBlockingPosition()));
         }
-
-        return new Map(player, ai, weapons);
     }
 
-    private static createRandomNonBlockingPosition(): Position
+    private createRandomNonBlockingPosition(): Position
     {
         let position = Position.random();
-        while (Tiles[position.getY()][position.getX()].isBlocking()) {
+        while (this.tiles[position.getY()][position.getX()].isBlocking()) {
             position = Position.random();
         }
 
@@ -106,4 +108,9 @@ export default class Map
     {
         this.weapons = this.weapons.filter(weapon => !weapon.getPosition().equals(position));
     }
-}
+
+    public getTileAt(position: Position): Tile
+    {
+        return this.tiles[position.getY()][position.getX()];
+    }
+};

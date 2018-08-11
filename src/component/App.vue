@@ -9,15 +9,15 @@
                     <v-list-tile-content>Game</v-list-tile-content>
                 </v-list-tile>
                 <v-list-tile>
-                    {{ $t('stats.action_points') }}: {{ player.getActionPoints() }}
+                    {{ $t('stats.action_points') }}: {{ map.player.getActionPoints() }}
                 </v-list-tile>
                 <v-list-tile>
-                    {{ $t('stats.hitpoints') }}: {{ player.getHitpoints() }}
+                    {{ $t('stats.hitpoints') }}: {{ map.player.getHitpoints() }}
                 </v-list-tile>
                 <v-list-tile>
-                    {{ $t('stats.soldiers_alive') }}: {{ $store.state.map.getSoldiersAlive() }}
+                    {{ $t('stats.soldiers_alive') }}: {{ map.getSoldiersAlive() }}
                 </v-list-tile>
-                <v-list-tile v-if="player.isAlive()">
+                <v-list-tile v-if="map.player.isAlive()">
                     <v-btn color="primary" @click="endTurn()">{{ $t('general.end_turn') }}</v-btn>
                 </v-list-tile>
             </v-list>
@@ -52,7 +52,7 @@ import ErrorDialog from './dialog/ErrorDialog';
 import ConfirmationDialog from './dialog/ConfirmationDialog';
 import NotificationHandler from './notification/NotificationHandler';
 import {EventBus} from "../service/EventBus";
-import Player from "../domain/character/Player";
+import {Map} from "../domain/Map";
 
 @Component({
     components: {
@@ -72,9 +72,9 @@ export default class App extends Vue
         EventBus.$emit('end_turn');
     }
 
-    private get player(): Player
+    private get map(): any
     {
-        return this.$store.state.map.getPlayer();
+        return Map;
     }
 }
 </script>
