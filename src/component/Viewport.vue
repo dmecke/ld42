@@ -7,7 +7,10 @@
                     class="cell"
                     :style="{ backgroundColor: '#' + getTileAt(createPosition(x + offsetX, y + offsetY)).getColor() }"
                 >
-                    <div class="entity" v-for="entity in getEntitiesAt(createPosition(x + offsetX, y + offsetY))">{{ entity.getTitle() }}</div>
+                    <div class="entity" v-for="entity in getEntitiesAt(createPosition(x + offsetX, y + offsetY))">
+                        <template v-if="entity.getTitle() !== 'Player'">{{ entity.getTitle() }}</template>
+                        <ld-player v-if="entity.getTitle() === 'Player'"></ld-player>
+                    </div>
                     <div class="position caption">{{ createPosition(x + offsetX, y + offsetY).toString() }}</div>
                 </div>
             </td>
@@ -25,8 +28,13 @@ import Position from "../domain/Position";
 import Tile from "../domain/Tile";
 import {Tiles} from "../domain/Tiles";
 import config from "../config";
+import Player from "./character/Player";
 
-@Component
+@Component({
+    components: {
+        'ld-player': Player,
+    }
+})
 export default class Viewport extends Vue
 {
     private get cellSize(): number
