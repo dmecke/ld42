@@ -9,15 +9,15 @@
                     <v-list-tile-content>Game</v-list-tile-content>
                 </v-list-tile>
                 <v-list-tile>
-                    {{ $t('stats.action_points') }}: {{ $store.state.map.getPlayer().getActionPoints() }}
+                    {{ $t('stats.action_points') }}: {{ player.getActionPoints() }}
                 </v-list-tile>
                 <v-list-tile>
-                    {{ $t('stats.hitpoints') }}: {{ $store.state.map.getPlayer().getHitpoints() }}
+                    {{ $t('stats.hitpoints') }}: {{ player.getHitpoints() }}
                 </v-list-tile>
                 <v-list-tile>
                     {{ $t('stats.soldiers_alive') }}: {{ $store.state.map.getSoldiersAlive() }}
                 </v-list-tile>
-                <v-list-tile>
+                <v-list-tile v-if="player.isAlive()">
                     <v-btn color="primary" @click="endTurn()">{{ $t('general.end_turn') }}</v-btn>
                 </v-list-tile>
             </v-list>
@@ -52,6 +52,7 @@ import ErrorDialog from './dialog/ErrorDialog';
 import ConfirmationDialog from './dialog/ConfirmationDialog';
 import NotificationHandler from './notification/NotificationHandler';
 import {EventBus} from "../service/EventBus";
+import Player from "../domain/Player";
 
 @Component({
     components: {
@@ -69,6 +70,11 @@ export default class App extends Vue
     private endTurn(): void
     {
         EventBus.$emit('end_turn');
+    }
+
+    private get player(): Player
+    {
+        return this.$store.state.map.getPlayer();
     }
 }
 </script>
