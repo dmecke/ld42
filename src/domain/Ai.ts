@@ -28,6 +28,11 @@ export default class Ai implements Soldier
         return this.hitpoints;
     }
 
+    public reduceHitpoints(amount: number): void
+    {
+        this.hitpoints = Math.max(0, this.hitpoints - amount);
+    }
+
     public isAlive(): boolean
     {
         return this.hitpoints > 0;

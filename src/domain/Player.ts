@@ -41,9 +41,19 @@ export default class Player implements Soldier
         return this.hitpoints;
     }
 
+    public reduceHitpoints(amount: number): void
+    {
+        this.hitpoints = Math.max(0, this.hitpoints - amount);
+    }
+
     public isAlive(): boolean
     {
         return this.hitpoints > 0;
+    }
+
+    public hasWeapon(): boolean
+    {
+        return this.inventory.length > 0;
     }
 
     public moveTo(position: Position): void
@@ -66,6 +76,18 @@ export default class Player implements Soldier
 
         this.inventory.push(item);
         this.actionPoints -= 5;
+
+        return true;
+    }
+
+    public fire(): boolean
+    {
+        if (this.actionPoints < 10) {
+            EventBus.$emit('error', 'not_enough_action_points');
+            return false;
+        }
+
+        this.actionPoints -= 10;
 
         return true;
     }

@@ -1,7 +1,7 @@
 <template>
     <table>
         <tr v-for="y in viewportX">
-            <td v-for="x in viewportY" :style="{ width: cellSize + 'px', height: cellSize + 'px' }">
+            <td v-for="x in viewportY" :style="{ width: cellSize + 'px', height: cellSize + 'px' }" @click="fireAt(createPosition(x + offsetX, y + offsetY))">
                 <div
                     v-if="x + offsetX >= 1 && x + offsetX <= mapMaxX && y + offsetY >= 1 && y + offsetY <= mapMaxY"
                     class="cell"
@@ -157,6 +157,25 @@ export default class Viewport extends Vue
     private getTileAt(position: Position): Tile
     {
         return Tiles[position.getY()][position.getX()];
+    }
+
+    private fireAt(position: Position): void
+    {
+        if (!this.player.isAlive()) {
+            return;
+        }
+        let soldier = this.map.getSoldierAt(position);
+        if (soldier === null) {
+            return;
+        }
+        if (!this.player.hasWeapon()) {
+            EventBus.$emit('error', 'no_weapon');
+            return;
+        }
+        let successful = this.player.fire();
+        if (successful) {
+            soldier.reduceHitpoints(Math.floor(Math.random() * 80));
+        }
     }
 }
 </script>

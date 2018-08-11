@@ -5,6 +5,7 @@ import GameObject from "./GameObject";
 import Weapon from "./Weapon";
 import {Tiles} from "./Tiles";
 import InventoryItem from "./InventoryItem";
+import Soldier from "./Soldier";
 
 export default class Map
 {
@@ -76,6 +77,28 @@ export default class Map
         weapons.forEach(weapon => entities.push(weapon));
 
         return entities;
+    }
+
+    public getSoldierAt(position: Position): Soldier|null
+    {
+        let soldiers = [];
+
+        if (this.player.getPosition().equals(position)) {
+            soldiers.push(this.player);
+        }
+
+        let ai = this.ai.filter(ai => ai.getPosition().equals(position));
+        ai.forEach(soldier => soldiers.push(soldier));
+
+        if (soldiers.length > 1) {
+            throw new Error('there must be no more than one soldier at a position');
+        }
+
+        if (soldiers.length === 0) {
+            return null;
+        }
+
+        return soldiers[0];
     }
 
     public getInventoryItemAt(position: Position): InventoryItem|null
