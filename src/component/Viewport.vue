@@ -7,10 +7,11 @@
                     class="cell"
                     :style="{ backgroundColor: '#' + getTileAt(createPosition(x + offsetX, y + offsetY)).getColor() }"
                 >
-                    <div class="entity" v-for="entity in getEntitiesAt(createPosition(x + offsetX, y + offsetY))">
-                        <template v-if="entity.getTitle() !== 'Player'">{{ entity.getTitle() }}</template>
+                    <template v-for="entity in getEntitiesAt(createPosition(x + offsetX, y + offsetY))">
+                        <ld-weapon v-if="entity.getTitle() === 'Weapon'"></ld-weapon>
+                        <ld-ai v-if="entity.getTitle() === 'Ai'"></ld-ai>
                         <ld-player v-if="entity.getTitle() === 'Player'"></ld-player>
-                    </div>
+                    </template>
                     <div class="position caption">{{ createPosition(x + offsetX, y + offsetY).toString() }}</div>
                 </div>
             </td>
@@ -29,10 +30,14 @@ import Tile from "../domain/Tile";
 import {Tiles} from "../domain/Tiles";
 import config from "../config";
 import Player from "./character/Player";
+import Ai from "./character/Ai";
+import Weapon from "./weapon/Weapon";
 
 @Component({
     components: {
         'ld-player': Player,
+        'ld-ai': Ai,
+        'ld-weapon': Weapon,
     }
 })
 export default class Viewport extends Vue
@@ -107,9 +112,7 @@ table {
             .cell {
                 width: 100%;
                 height: 100%;
-                .entity {
-                    text-align: center;
-                }
+                position: relative;
                 .position {
                     text-align: center;
                     display: none;

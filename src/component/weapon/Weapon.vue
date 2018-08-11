@@ -7,11 +7,11 @@ import Vue from "vue";
 import Component from "vue-class-component";
 
 @Component
-export default class Player extends Vue
+export default class Ai extends Vue
 {
     private get image(): string
     {
-        return require('./player.png');
+        return require('./weapon.png');
     }
 }
 </script>
@@ -23,6 +23,6 @@ export default class Player extends Vue
     top: 0;
     width: 32px;
     height: 32px;
-    z-index: 190;
+    z-index: 100;
 }
 </style>
