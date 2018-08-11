@@ -1,7 +1,14 @@
 <template>
     <v-app dark>
         <v-navigation-drawer app clipped v-model="isOpenLeftMenu">
-            Left Navigation
+            <v-list>
+                <v-list-tile router to="/">
+                    <v-list-tile-content>Home</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile router to="/game">
+                    <v-list-tile-content>Game</v-list-tile-content>
+                </v-list-tile>
+            </v-list>
         </v-navigation-drawer>
         <v-navigation-drawer app right clipped v-model="isOpenRightMenu" class="chat">
             Right Navigation
