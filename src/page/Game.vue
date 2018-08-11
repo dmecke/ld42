@@ -16,5 +16,9 @@ import Viewport from "../component/Viewport";
 })
 export default class Game extends Vue
 {
+    private mounted(): void
+    {
+        console.log('mounted in ' + (new Date().getTime() - this.$store.state.startTime) + 'ms');
+    }
 }
 </script>

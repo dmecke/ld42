@@ -1,4 +1,4 @@
-import Map from "./Map";
+import config from "../config";
 
 export default class Position
 {
@@ -14,8 +14,8 @@ export default class Position
     public static random(): Position
     {
         return new Position(
-            Math.floor(Math.random() * Map.MAX_X + Map.MIN_X),
-            Math.floor(Math.random() * Map.MAX_Y + Map.MIN_Y),
+            Math.floor(Math.random() * config.map.width + 1),
+            Math.floor(Math.random() * config.map.height + 1),
         );
     }
 

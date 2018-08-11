@@ -23,33 +23,35 @@ import GameObject from "../domain/GameObject";
 import Map from "../domain/Map";
 import Position from "../domain/Position";
 import Tile from "../domain/Tile";
+import {Tiles} from "../domain/Tiles";
+import config from "../config";
 
 @Component
 export default class Viewport extends Vue
 {
     private get cellSize(): number
     {
-        return Map.CELL_SIZE;
+        return config.cell_size;
     }
 
     private get mapMaxX(): number
     {
-        return Map.MAX_X;
+        return config.map.width;
     }
 
     private get mapMaxY(): number
     {
-        return Map.MAX_Y;
+        return config.map.height;
     }
 
     private get viewportX(): number
     {
-        return Map.VIEWPORT_X;
+        return config.viewport_width;
     }
 
     private get viewportY(): number
     {
-        return Map.VIEWPORT_Y;
+        return config.viewport_height;
     }
 
     private get offsetX(): number
@@ -84,7 +86,7 @@ export default class Viewport extends Vue
 
     private getTileAt(position: Position): Tile
     {
-        return this.map.getTileAt(position);
+        return Tiles[position.getY()][position.getX()];
     }
 }
 </script>
