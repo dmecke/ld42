@@ -1,7 +1,7 @@
-import GameObject from "./GameObject";
 import Position from "./Position";
+import InventoryItem from "./InventoryItem";
 
-export default class Weapon implements GameObject
+export default class Weapon implements InventoryItem
 {
     private readonly position;
 

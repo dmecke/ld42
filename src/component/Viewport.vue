@@ -22,7 +22,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import Soldier from "../domain/Soldier";
+import PlayerEntity from "../domain/Player";
 import GameObject from "../domain/GameObject";
 import Map from "../domain/Map";
 import Position from "../domain/Position";
@@ -32,6 +32,7 @@ import config from "../config";
 import Player from "./character/Player";
 import Ai from "./character/Ai";
 import Weapon from "./weapon/Weapon";
+import {EventBus} from "../service/EventBus";
 
 @Component({
     components: {
@@ -42,6 +43,43 @@ import Weapon from "./weapon/Weapon";
 })
 export default class Viewport extends Vue
 {
+    private created(): void
+    {
+        EventBus.$on('movement', event => {
+            switch (event.direction) {
+                case 'up':
+                    this.player.moveUp();
+                    break;
+
+                case 'down':
+                    this.player.moveDown();
+                    break;
+
+                case 'left':
+                    this.player.moveLeft();
+                    break;
+
+                case 'right':
+                    this.player.moveRight();
+                    break;
+
+                default:
+                    throw new Error('unknown movement direction: "' + event.direction + '"');
+            }
+        });
+        EventBus.$on('pickup', () => {
+            let item = this.map.getInventoryItemAt(this.player.getPosition());
+            if (item === null) {
+                EventBus.$emit('error', 'nothing_to_pick_up');
+                return;
+            }
+            let successful = this.player.pickup(item);
+            if (successful) {
+                this.map.pickupInventoryItemAt(this.player.getPosition());
+            }
+        });
+    }
+
     private get cellSize(): number
     {
         return config.cell_size;
@@ -87,7 +125,7 @@ export default class Viewport extends Vue
         return this.$store.state.map;
     }
 
-    private get player(): Soldier
+    private get player(): PlayerEntity
     {
         return this.map.getPlayer();
     }

@@ -38,5 +38,9 @@ window.addEventListener('keyup', event => {
         case 68:
             EventBus.$emit('movement', { direction: 'right' });
             break;
+
+        case 80:
+            EventBus.$emit('pickup');
+            break;
     }
 });

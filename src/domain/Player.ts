@@ -1,39 +1,18 @@
 import Position from "./Position";
 import Soldier from "./Soldier";
 import config from "../config";
+import InventoryItem from "./InventoryItem";
 import {EventBus} from "../service/EventBus";
 
 export default class Player implements Soldier
 {
     private position: Position;
     private actionPoints: number = config.action_points;
+    private inventory: InventoryItem[] = [];
 
     public constructor(position: Position)
     {
         this.position = position;
-        EventBus.$on('movement', event => {
-            switch (event.direction) {
-                case 'up':
-                    this.position = this.position.up();
-                    break;
-
-                case 'down':
-                    this.position = this.position.down();
-                    break;
-
-                case 'left':
-                    this.position = this.position.left();
-                    break;
-
-                case 'right':
-                    this.position = this.position.right();
-                    break;
-
-                default:
-                    throw new Error('unknown movement direction: "' + event.direction + '"');
-            }
-            this.actionPoints--;
-        });
     }
 
     public getTitle(): string
@@ -49,5 +28,63 @@ export default class Player implements Soldier
     public getActionPoints(): number
     {
         return this.actionPoints;
+    }
+
+    public moveUp(): void
+    {
+        if (this.actionPoints < 1) {
+            EventBus.$emit('error', 'not_enough_action_points');
+            return;
+        }
+
+        this.position = this.position.up();
+        this.actionPoints--;
+    }
+
+    public moveDown(): void
+    {
+        if (this.actionPoints < 1) {
+            EventBus.$emit('error', 'not_enough_action_points');
+            return;
+        }
+
+        this.position = this.position.down();
+        this.actionPoints--;
+    }
+
+    public moveLeft(): void
+    {
+        if (this.actionPoints < 1) {
+            EventBus.$emit('error', 'not_enough_action_points');
+            return;
+        }
+
+        this.position = this.position.left();
+        this.actionPoints--;
+    }
+
+    public moveRight(): void
+    {
+        if (this.actionPoints < 1) {
+            EventBus.$emit('error', 'not_enough_action_points');
+            return;
+        }
+
+        this.position = this.position.right();
+        this.actionPoints--;
+    }
+
+    public pickup(item: InventoryItem): boolean
+    {
+        if (this.actionPoints < 5) {
+            EventBus.$emit('error', 'not_enough_action_points');
+            return false;
+        }
+
+        this.inventory.push(item);
+
+        this.actionPoints -= 5;
+
+        return true;
     }
 }

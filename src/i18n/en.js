@@ -9,6 +9,8 @@ export default {
         close: "close",
     },
     error: {
+        not_enough_action_points: "You don't have enough action points.",
+        nothing_to_pick_up: "There is nothing to pick up here.",
     },
     info: {
     },

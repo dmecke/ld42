@@ -4,12 +4,13 @@ import Player from "./Player";
 import GameObject from "./GameObject";
 import Weapon from "./Weapon";
 import {Tiles} from "./Tiles";
+import InventoryItem from "./InventoryItem";
 
 export default class Map
 {
     private readonly player: Player;
     private readonly ai: Ai[];
-    private readonly weapons: Weapon[];
+    private weapons: Weapon[];
 
     public constructor(player: Player, ai: Ai[], weapons: Weapon[])
     {
@@ -65,5 +66,28 @@ export default class Map
         weapons.forEach(weapon => entities.push(weapon));
 
         return entities;
+    }
+
+    public getInventoryItemAt(position: Position): InventoryItem|null
+    {
+        let items = [];
+
+        let weapons = this.weapons.filter(weapon => weapon.getPosition().equals(position));
+        weapons.forEach(weapon => items.push(weapon));
+
+        if (items.length > 1) {
+            throw new Error('there must be no more than one inventory item at a position');
+        }
+
+        if (items.length === 0) {
+            return null;
+        }
+
+        return items[0];
+    }
+
+    public pickupInventoryItemAt(position: Position): void
+    {
+        this.weapons = this.weapons.filter(weapon => !weapon.getPosition().equals(position));
     }
 }
