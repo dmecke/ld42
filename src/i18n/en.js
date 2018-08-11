@@ -23,4 +23,7 @@ export default {
         action_points: "Action Points",
         hitpoints: "Hitpoints",
     },
+    controls: {
+        show_mini_map: "show Mini Map",
+    },
 }

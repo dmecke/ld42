@@ -3,8 +3,8 @@ export default {
     viewport_width: 21,
     viewport_height: 21,
     map: {
-        width: 1000,
-        height: 1000,
+        width: 500,
+        height: 500,
     },
     action_points: 30,
     hitpoints: 100,
