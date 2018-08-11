@@ -8,6 +8,9 @@
                 <v-list-tile router to="/game">
                     <v-list-tile-content>Game</v-list-tile-content>
                 </v-list-tile>
+                <v-list-tile>
+                    {{ $t('stats.action_points') }}: {{ $store.state.map.getPlayer().getActionPoints() }}
+                </v-list-tile>
             </v-list>
         </v-navigation-drawer>
         <v-navigation-drawer app right clipped v-model="isOpenRightMenu" class="chat">

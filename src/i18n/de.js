@@ -16,4 +16,7 @@ export default {
     },
     notification: {
     },
+    stats: {
+        action_points: "Aktionspunkte",
+    },
 }

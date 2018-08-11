@@ -29,6 +29,26 @@ export default class Position
         return this.y;
     }
 
+    public up(): Position
+    {
+        return new Position(this.x, this.y - 1);
+    }
+
+    public down(): Position
+    {
+        return new Position(this.x, this.y + 1);
+    }
+
+    public left(): Position
+    {
+        return new Position(this.x - 1, this.y);
+    }
+
+    public right(): Position
+    {
+        return new Position(this.x + 1, this.y);
+    }
+
     public toString(): string
     {
         return this.x + '|' + this.y;

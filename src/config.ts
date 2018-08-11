@@ -5,5 +5,6 @@ export default {
     map: {
         width: 1000,
         height: 1000,
-    }
+    },
+    action_points: 30,
 }
