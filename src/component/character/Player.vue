@@ -23,6 +23,6 @@ export default class Player extends Vue
     top: 0;
     width: 32px;
     height: 32px;
-    z-index: 190;
+    z-index: 2;
 }
 </style>

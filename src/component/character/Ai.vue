@@ -23,6 +23,5 @@ export default class Ai extends Vue
     top: 0;
     width: 32px;
     height: 32px;
-    z-index: 150;
 }
 </style>
