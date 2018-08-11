@@ -41,6 +41,11 @@ export default class Player implements Soldier
         return this.hitpoints;
     }
 
+    public isAlive(): boolean
+    {
+        return this.hitpoints > 0;
+    }
+
     public moveTo(position: Position): void
     {
         if (this.actionPoints < 1) {

@@ -6,6 +6,7 @@ export default class Ai implements Soldier
 {
     private readonly position: Position;
     private readonly actionPoints: number = config.action_points;
+    private hitpoints: number = config.hitpoints;
 
     public constructor(position: Position)
     {
@@ -20,5 +21,15 @@ export default class Ai implements Soldier
     public getPosition(): Position
     {
         return this.position;
+    }
+
+    public getHitpoints(): number
+    {
+        return this.hitpoints;
+    }
+
+    public isAlive(): boolean
+    {
+        return this.hitpoints > 0;
     }
 }

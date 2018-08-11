@@ -51,6 +51,16 @@ export default class Map
         return this.player;
     }
 
+    public getSoldiersAlive(): number
+    {
+        let soldiersAlive = this.ai.filter(ai => ai.isAlive()).length;
+        if (this.player.isAlive()) {
+            soldiersAlive++;
+        }
+
+        return soldiersAlive;
+    }
+
     public getEntitiesAt(position: Position): GameObject[]
     {
         let entities = [];

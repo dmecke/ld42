@@ -22,6 +22,7 @@ export default {
     stats: {
         action_points: "Aktionspunkte",
         hitpoints: "Trefferpunkte",
+        soldiers_alive: "Überlebende",
     },
     controls: {
         show_mini_map: "Mini Map anzeigen",

@@ -15,6 +15,9 @@
                     {{ $t('stats.hitpoints') }}: {{ $store.state.map.getPlayer().getHitpoints() }}
                 </v-list-tile>
                 <v-list-tile>
+                    {{ $t('stats.soldiers_alive') }}: {{ $store.state.map.getSoldiersAlive() }}
+                </v-list-tile>
+                <v-list-tile>
                     <v-btn color="primary" @click="endTurn()">{{ $t('general.end_turn') }}</v-btn>
                 </v-list-tile>
             </v-list>
