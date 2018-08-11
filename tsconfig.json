@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "moduleResolution": "node",
+        "target": "es2015",
+        "types": ["reflect-metadata"]
+    },
+    "files": [
+        "src/app.ts",
+        "config/typings.d.ts"
+    ]
+}

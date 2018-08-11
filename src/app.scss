@@ -1,0 +1,9 @@
+@import '../node_modules/normalize.css/normalize.css';
+@import "~vuetify/dist/vuetify.css";
+
+html, body {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
