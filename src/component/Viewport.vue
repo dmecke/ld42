@@ -1,20 +1,20 @@
 <template>
     <table>
         <tr v-for="y in viewportX">
-            <td v-for="x in viewportY" :style="{ width: cellSize + 'px', height: cellSize + 'px' }" @click="fireAt(createPosition(x + offsetX, y + offsetY))">
+            <td v-for="x in viewportY" :style="{ width: cellSize + 'px', height: cellSize + 'px' }" @click="fireAt(createPosition(x + getOffsetX(), y + getOffsetY()))">
                 <div
-                    v-if="x + offsetX >= 1 && x + offsetX <= mapMaxX && y + offsetY >= 1 && y + offsetY <= mapMaxY"
+                    v-if="x + getOffsetX() >= 1 && x + getOffsetX() <= mapMaxX && y + getOffsetY() >= 1 && y + getOffsetY() <= mapMaxY"
                     class="cell"
-                    :style="{ backgroundColor: '#' + getTileAt(createPosition(x + offsetX, y + offsetY)).getColor() }"
+                    :style="{ backgroundColor: '#' + getTileAt(createPosition(x + getOffsetX(), y + getOffsetY())).getColor() }"
                 >
-                    <ld-weapon-image v-if="map.getInventoryItemAt(createPosition(x + offsetX, y + offsetY))"></ld-weapon-image>
+                    <ld-weapon-image v-if="getMap().getInventoryItemAt(createPosition(x + getOffsetX(), y + getOffsetY()))"></ld-weapon-image>
                     <ld-soldier-image
-                        v-if="map.getSoldierAt(createPosition(x + offsetX, y + offsetY))"
-                        :soldier="map.getSoldierAt(createPosition(x + offsetX, y + offsetY))"
+                        v-if="getMap().getSoldierAt(createPosition(x + getOffsetX(), y + getOffsetY()))"
+                        :soldier="getMap().getSoldierAt(createPosition(x + getOffsetX(), y + getOffsetY()))"
                     ></ld-soldier-image>
                     <div class="position caption">
-                        <div>x: {{ x + offsetX }}</div>
-                        <div>y: {{ y + offsetY }}</div>
+                        <div>x: {{ x + getOffsetX() }}</div>
+                        <div>y: {{ y + getOffsetY() }}</div>
                     </div>
                 </div>
             </td>
@@ -45,36 +45,36 @@ export default class Viewport extends Vue
     private created(): void
     {
         EventBus.$on('movement', event => {
-            if (!this.player.isAlive()) {
+            if (!this.getPlayer().isAlive()) {
                 return;
             }
             let target = this.getTarget(event.direction);
             if (this.getTileAt(target).isBlocking()) {
                 return;
             }
-            this.player.moveTo(target);
+            this.getPlayer().moveTo(target);
             this.$forceUpdate();
         });
         EventBus.$on('pickup', () => {
-            if (!this.player.isAlive()) {
+            if (!this.getPlayer().isAlive()) {
                 return;
             }
-            let item = this.map.getInventoryItemAt(this.player.getPosition());
+            let item = this.getMap().getInventoryItemAt(this.getPlayer().getPosition());
             if (item === null) {
                 EventBus.$emit('error', 'nothing_to_pick_up');
                 return;
             }
-            let successful = this.player.pickup(item);
+            let successful = this.getPlayer().pickup(item);
             if (successful) {
-                this.map.pickupInventoryItemAt(this.player.getPosition());
+                this.getMap().pickupInventoryItemAt(this.getPlayer().getPosition());
                 this.$forceUpdate();
             }
         });
         EventBus.$on('end_turn', () => {
-            if (!this.player.isAlive()) {
+            if (!this.getPlayer().isAlive()) {
                 return;
             }
-            this.player.resetActionPoints();
+            this.getPlayer().resetActionPoints();
             this.$forceUpdate();
         });
     }
@@ -83,16 +83,16 @@ export default class Viewport extends Vue
     {
         switch (direction) {
             case 'up':
-                return this.player.getPosition().add(new Position(0, -1));
+                return this.getPlayer().getPosition().add(new Position(0, -1));
 
             case 'down':
-                return this.player.getPosition().add(new Position(0, 1));
+                return this.getPlayer().getPosition().add(new Position(0, 1));
 
             case 'left':
-                return this.player.getPosition().add(new Position(-1, 0));
+                return this.getPlayer().getPosition().add(new Position(-1, 0));
 
             case 'right':
-                return this.player.getPosition().add(new Position(1, 0));
+                return this.getPlayer().getPosition().add(new Position(1, 0));
         }
 
         throw new Error('unknown movement direction: "' + direction + '"');
@@ -123,14 +123,14 @@ export default class Viewport extends Vue
         return config.viewport_height;
     }
 
-    private get offsetX(): number
+    private getOffsetX(): number
     {
-        return this.player.getPosition().getX() - Math.floor((this.viewportX - 1) / 2) - 1;
+        return this.getPlayer().getPosition().getX() - Math.floor((this.viewportX - 1) / 2) - 1;
     }
 
-    private get offsetY(): number
+    private getOffsetY(): number
     {
-        return this.player.getPosition().getY() - Math.floor((this.viewportY - 1) / 2) - 1;
+        return this.getPlayer().getPosition().getY() - Math.floor((this.viewportY - 1) / 2) - 1;
     }
 
     private createPosition(x: number, y: number): Position
@@ -138,35 +138,35 @@ export default class Viewport extends Vue
         return new Position(x, y);
     }
 
-    private get map(): any
+    private getMap(): any
     {
         return Map;
     }
 
-    private get player(): PlayerEntity
+    private getPlayer(): PlayerEntity
     {
-        return Map.getPlayer();
+        return this.getMap().getPlayer();
     }
 
     private getTileAt(position: Position): Tile
     {
-        return Map.getTileAt(position);
+        return this.getMap().getTileAt(position);
     }
 
     private fireAt(position: Position): void
     {
-        if (!this.player.isAlive()) {
+        if (!this.getPlayer().isAlive()) {
             return;
         }
-        let soldier = this.map.getSoldierAt(position);
+        let soldier = this.getMap().getSoldierAt(position);
         if (soldier === null) {
             return;
         }
-        if (!this.player.hasWeapon()) {
+        if (!this.getPlayer().hasWeapon()) {
             EventBus.$emit('error', 'no_weapon');
             return;
         }
-        let successful = this.player.fire();
+        let successful = this.getPlayer().fire();
         if (successful) {
             soldier.reduceHitpoints(Math.floor(Math.random() * 80));
         }
